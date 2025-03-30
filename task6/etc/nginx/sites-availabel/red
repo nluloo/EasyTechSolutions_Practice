@@ -1,0 +1,22 @@
+server {
+	listen 8082;
+
+	root /var/www/red/;
+	index index.html;
+
+	location / {
+		try_files $uri $uri/ =403;
+	}
+}
+
+server {
+	listen 8083;
+	
+	root /var/www/blue/;
+        index index.html;
+
+  location / {
+                try_files $uri $uri/ =403;
+        }
+
+}

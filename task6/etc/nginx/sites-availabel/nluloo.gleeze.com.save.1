@@ -1,0 +1,45 @@
+server {
+	
+	server_name nluloo.gleeze.com;
+
+	root /var/www/task4/;
+	index index.html index.htm index.nginx-debian.html;
+
+
+		location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+	listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/nluloo.gleeze.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/nluloo.gleeze.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+
+	location /other {
+		proxy_pass http://127.0.0.1:8000/;
+
+	}
+
+location /music {
+	alias /var/www/music/;                  # Путь к директории с музыкой
+    add_header Content-Disposition 'attachment; filename="Lad.mp3"';  # Скачивание файла
+    
+    add_header Content-type aplication/octet-stream;   # Универсальный тип для скачивания
+	try_files /Lad.mp3 =404;
+}
+}
+server {
+    listen 8000;
+root /var/www/other_page/;
+
+	index index.html index.htm index.nginx-debian.html;
+	location /{
+try_files $uri $uri/ =404;
+}
+}
+
