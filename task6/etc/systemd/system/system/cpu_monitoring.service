@@ -1,0 +1,10 @@
+[Unit]
+Description=CPU Monitoring Service
+After=network.target
+[Service]
+Type=simple
+User=root
+Restart=always
+ExecStart=/home/ubuntu/cpu.sh
+[Install]
+WantedBy=multi-user.target

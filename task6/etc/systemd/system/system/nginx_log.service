@@ -1,0 +1,11 @@
+[Unit]
+Description=Template Settings Service
+After=network.target
+[Service]
+Type=simple
+User=root
+Restart=always
+ExecStart=/home/ubuntu/nginx_log.sh
+[Install]
+WantedBy=multi-user.target
+
