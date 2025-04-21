@@ -1,0 +1,7 @@
+FROM alpine:latest
+
+WORKDIR /nginx_log
+
+COPY . .
+
+CMD ["sh", "nginx_log.sh"]

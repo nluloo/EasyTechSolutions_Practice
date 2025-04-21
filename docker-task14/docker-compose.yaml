@@ -1,0 +1,16 @@
+services:
+
+  nginx:
+    build: nginx_container/
+
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./logs:/var/log/nginx/
+
+
+  parsing:
+    build: monitoring/
+    volumes:
+      - ./logs:/logs
