@@ -1,0 +1,8 @@
+---
+- name: Clone directory
+  git:
+    repo: 'https://github.com/nluloo/Docker-Ansible'
+    dest: /home/{{username}}/Docker-Ansible
+
+- name: Container
+  

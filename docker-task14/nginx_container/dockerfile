@@ -10,6 +10,6 @@ COPY ports.conf /etc/apache2/conf.d/
 
 
 RUN  apk add nginx-mod-http-image-filter apache2 && \
-	 sed '/Listen 80/d' /etc/apache2/httpd.conf && \
-	 httpd
+	 sed- -i '/Listen 80/d' /etc/apache2/httpd.conf
 
+CMD httpd && nginx -g 'daemon off;'

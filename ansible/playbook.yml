@@ -1,0 +1,8 @@
+---
+- name: Install Docker and Upload container
+  hosts: all
+  become: yes
+
+  roles:
+    - docker_install
+    - git_and_container
