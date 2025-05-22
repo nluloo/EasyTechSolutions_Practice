@@ -1,0 +1,24 @@
+route:
+  repeat_interval: 10m
+  receiver: telegram
+  routes:
+    - match:
+        alertname: hardware_cpu
+      receiver: telegram
+
+
+
+receivers:
+  - name: telegram
+    telegram_configs:
+      - bot_token: '7016934395:AAF-FDNil5DyM2rDIRwijXwgDX7fMsGpKBE' 
+      api_url: 'https://api.telegram.org'
+      chat_id: 
+      parse_mode: ''
+      message: |
+        🔔 *{{ .Status | toUpper }} Алерты*
+        {{ range .Alerts }}
+        *Алерт:* {{ .Labels.alertname }}
+        *Инстанс:* {{ .Labels.instance }}
+        *Описание:* {{ .Annotations.description }}
+        {{ end }}

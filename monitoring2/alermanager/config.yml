@@ -1,0 +1,31 @@
+global:
+  resolve_timeout: 1m
+  slack_api_url: 'xxxx'
+
+route:
+  repeat_interval: 10m
+  receiver: 'slack-notifications'
+  group_by: ['alertname']
+  group_wait: 15s
+  group_interval: 15s
+  routes:
+    - receiver: telegram
+      repeat_interval: 1m
+      matchers: ["alertname=hardware_cpu"]
+    - receiver: 'slack-notifications'
+      repeat_interval: 1m
+      matchers: ["alertname=hardware_memory"]
+
+
+receivers:
+  - name: telegram
+    telegram_configs:
+    - api_url: 'https://api.telegram.org'
+      bot_token: 'xxxx'
+      chat_id: xxxx
+#      parse_mode: 'Markdown'
+      message: "ALERT: {{ .CommonLabels.alertname }} - {{ .CommonAnnotations.summary }}"
+  - name: 'slack-notifications'
+    slack_configs:
+    - channel: '#monitoring'
+      send_resolved: false

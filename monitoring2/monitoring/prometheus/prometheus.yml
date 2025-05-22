@@ -1,0 +1,37 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 30s
+
+alerting:
+  alertmanagers:
+  - follow_redirects: true
+    timeout: 10s
+    static_configs:
+    - targets:
+      - alertmanager:9093
+
+
+rule_files:
+- /etc/prometheus/rule_files/*.yml
+
+
+scrape_configs:
+- job_name: 'prometheus'
+  static_configs:
+    - targets:
+      - localhost:9090
+- job_name: 'cpu'
+  metrics_path: /metrics
+  static_configs:
+    - targets:
+      - node-exporter:9100
+- job_name: 'memory'
+  metrics_path: /metrics
+  static_configs:
+    - targets:
+      - 35.172.133.226:9100
+  relabel_configs:
+    - source_labels: [__address__]
+      target_label: instance
+      replacement: nluloo_memory

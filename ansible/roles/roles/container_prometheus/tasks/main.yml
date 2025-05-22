@@ -1,0 +1,21 @@
+#SPDX-License-Identifier: MIT-0
+---
+- name: Run docker container prometheus
+  community.docker.docker_container:
+    image: prom/node-exporter:latest
+    name: node-exporter
+    state: started
+    command: >
+      --path.sysfs='/host/sys'
+      --path.rootfs='/rootfs'
+      --path.procfs='/host/proc'
+      --path.udev.data='/rootfs/run/udev/data'
+      --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+    pid_mode: host
+    restart_policy: unless-stopped
+    volumes:
+      - "/:/rootfs:ro"
+      - "/sys:/host/sys:ro"
+      - "/proc:/host/proc:ro"
+    ports:
+      - "9100:9100"

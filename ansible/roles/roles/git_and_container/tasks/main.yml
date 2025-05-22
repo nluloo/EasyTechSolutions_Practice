@@ -1,0 +1,9 @@
+---
+- name: Run docker container 
+  community.docker.docker_container:
+    name: nginx
+    image: nluloo/nginx_apache:latest
+    state: started
+    ports:
+      - "80:80"
+      - "443:443"
