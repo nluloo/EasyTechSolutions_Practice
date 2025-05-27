@@ -1,0 +1,32 @@
+groups:
+
+- name: target
+  rules:
+    - alert: target_down
+      expr: up == 0
+      for: 1m
+      labels:
+        service: target
+        severity: critical
+      annotations:
+        summary: 'Targer down! Failed to scrape {{ $labels.job }} on {{ $labels.instance }}'
+
+- name: hardware
+  rules:
+    - alert: hardware_cpu
+      expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[1m])) * 100) > 20
+      for: 20s
+      labels:
+        service: hardware
+        severity: warning
+      annotations:
+        summary: 'Hight CPU load on {{ $labels.instance }} - {{ $value | printf "%.2f" }}%'
+
+    - alert: hardware_memory
+      expr: 100 - (min_over_time(node_memory_MemFree_bytes[1m]) * 100 / node_memory_MemTotal_bytes) > 20
+      for: 3m
+      labels:
+        service: hardware
+        severity: warning
+      annotations:
+        summary: 'Hight memory utilization on {{ $labels.instance }} - {{ $value | printf "%.2f" }}%'
